@@ -1,0 +1,36 @@
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f9f9f9;
+    color: #333;
+}
+header {
+    background: url('../images/header-bg.jpg') no-repeat center center/cover;
+    color: white;
+    text-align: center;
+    padding: 4rem 1rem;
+}
+.search-bar {
+    margin-top: 1rem;
+}
+.search-bar input {
+    padding: 0.5rem;
+    width: 60%;
+    max-width: 400px;
+}
+.search-bar button {
+    padding: 0.5rem 1rem;
+}
+#map {
+    height: 400px;
+    margin: 2rem 1rem;
+    background: #ddd;
+}
+footer {
+    background: #333;
+    color: white;
+    text-align: center;
+    padding: 1rem;
+}
