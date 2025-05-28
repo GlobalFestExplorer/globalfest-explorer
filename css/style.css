@@ -34,3 +34,56 @@ footer {
     text-align: center;
     padding: 1rem;
 }
+.event-section {
+  padding: 40px;
+  background-color: #f8f9fa;
+  text-align: center;
+}
+
+.event-section h2 {
+  font-size: 2rem;
+  margin-bottom: 30px;
+}
+
+.event-cards {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.event-card {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  width: 300px;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.event-card:hover {
+  transform: translateY(-5px);
+}
+
+.event-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.event-info {
+  padding: 20px;
+  text-align: left;
+}
+
+.event-info h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.event-info p {
+  margin: 5px 0;
+  font-size: 0.95rem;
+  color: #666;
+}
