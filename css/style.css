@@ -106,3 +106,19 @@ body {
   text-decoration: none;
   color: inherit;
 }
+
+/* Top Banner */
+.top-banner {
+  background-color: #2a5d74; /* dark pastel blue */
+  padding: 20px 0;
+  text-align: center;
+}
+
+.top-banner h1 {
+  color: #ffffff;
+  font-size: 1.8rem;
+  margin: 0;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
