@@ -87,3 +87,31 @@ footer {
   font-size: 0.95rem;
   color: #666;
 }
+
+.hero-header {
+  background-image: url('images/header.jpg'); /* Replace with your own image */
+  background-size: cover;
+  background-position: center;
+  height: 300px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-overlay {
+  background-color: rgba(0, 0, 0, 0.5); /* Dark transparent overlay */
+  color: #fff;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-header h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin: 0;
+  text-align: center;
+}
