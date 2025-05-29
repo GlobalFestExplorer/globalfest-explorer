@@ -5,60 +5,107 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>GlobalFest Explorer</title>
   <link rel="stylesheet" href="css/style.css" />
-  <script src="js/script.js" defer></script>
 </head>
-  
 <body>
 
-<div class="top-banner">
-  <h1>GlobalFest Explorer</h1>
-</div>
+  <div class="top-banner">
+    <h1>GlobalFest Explorer</h1>
+  </div>
 
   <header class="hero-header">
-  <div class="hero-overlay">
-    <h1>Discover the world through festivals</h1>
-  </div>
-</header>
-  
+    <div class="hero-overlay">
+      <h1>Discover the world through festivals</h1>
+    </div>
+  </header>
+
   <section class="event-section">
     <h2>Featured Festivals</h2>
     <div class="event-cards">
-
-      <a href="event1.html" class="event-card-link">
+      
+      <!-- Card 1 -->
+      <a href="event-detail.html?id=uuid-1" class="event-card-link" data-festival-id="uuid-1">
         <div class="event-card">
           <img src="images/carnival-rio-card.jpg" alt="Rio Carnival" />
           <div class="event-info">
-            <h3>Rio Carnival</h3>
+            <h3>Loading...</h3>
             <p>Brazil</p>
-            <p>Feb 21 – Feb 29</p>
+            <p>Loading date...</p>
           </div>
         </div>
       </a>
 
-      <a href="event2.html" class="event-card-link">
+      <!-- Card 2 -->
+      <a href="event-detail.html?id=uuid-2" class="event-card-link" data-festival-id="uuid-2">
         <div class="event-card">
           <img src="images/oktoberfest-card.jpg" alt="Oktoberfest" />
           <div class="event-info">
-            <h3>Oktoberfest</h3>
+            <h3>Loading...</h3>
             <p>Germany</p>
-            <p>Sep 16 – Oct 3</p>
+            <p>Loading date...</p>
           </div>
         </div>
       </a>
 
-      <a href="event3.html" class="event-card-link">
+      <!-- Card 3 -->
+      <a href="event-detail.html?id=uuid-3" class="event-card-link" data-festival-id="uuid-3">
         <div class="event-card">
           <img src="images/diwali-card.jpg" alt="Diwali Festival" />
           <div class="event-info">
-            <h3>Diwali</h3>
+            <h3>Loading...</h3>
             <p>India</p>
-            <p>Nov 12</p>
+            <p>Loading date...</p>
           </div>
         </div>
       </a>
 
     </div>
   </section>
+
+  <!-- Supabase logic -->
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+    const supabaseUrl = 'https://fpmdbfrqwvxxtxglkbes.supabase.co'; 
+    const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZwbWRiZnJxd3Z4eHR4Z2xrYmVzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg0ODg5MTIsImV4cCI6MjA2NDA2NDkxMn0.5Yk8WEzGeLNJRCl24dW1pUI5D32RJenExOE7XL9rvdQ'; 
+
+    const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
+    async function updateFestivalCards() {
+      const cardLinks = document.querySelectorAll('.event-card-link[data-festival-id]');
+      const festivalIds = Array.from(cardLinks).map(link => link.dataset.festivalId);
+
+      const { data: festivals, error } = await supabase
+        .from('festivals')
+        .select('*')
+        .in('id', festivalIds);
+
+      if (error) {
+        console.error('Error fetching festivals:', error);
+        return;
+      }
+
+      festivals.forEach(festival => {
+        const link = document.querySelector(`.event-card-link[data-festival-id="${festival.id}"]`);
+        if (!link) return;
+
+        const h3 = link.querySelector('h3');
+        const dateP = link.querySelectorAll('p')[1]; // second <p> is the date
+
+        h3.textContent = festival.name;
+
+        const startDate = new Date(festival.start_date);
+        const endDate = festival.end_date ? new Date(festival.end_date) : null;
+        const options = { month: 'short', day: 'numeric' };
+        const dateString = endDate
+          ? `${startDate.toLocaleDateString(undefined, options)} – ${endDate.toLocaleDateString(undefined, options)}`
+          : `${startDate.toLocaleDateString(undefined, options)}`;
+
+        dateP.textContent = dateString;
+      });
+    }
+
+    window.addEventListener('DOMContentLoaded', updateFestivalCards);
+  </script>
+
 </body>
 </html>
-
