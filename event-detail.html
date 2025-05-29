@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Festival Details</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <script type="module">
+    // --- Supabase Setup ---
+    import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+
+    const supabaseUrl = "https://fpmdbfrqwvxxtxglkbes.supabase.co";
+    const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZwbWRiZnJxd3Z4eHR4Z2xrYmVzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg0ODg5MTIsImV4cCI6MjA2NDA2NDkxMn0.5Yk8WEzGeLNJRCl24dW1pUI5D32RJenExOE7XL9rvdQ";
+    const supabase = createClient(supabaseUrl, supabaseKey);
+
+    // --- Helper: Get ID from URL ---
+    function getFestivalId() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get("id");
+    }
+
+    // --- Populate Festival Data ---
+    async function loadFestival() {
+      const festivalId = getFestivalId();
+      if (!festivalId) {
+        document.getElementById("festival-content").innerHTML = "<p>Festival ID not found in URL.</p>";
+        return;
+      }
+
+      const { data, error } = await supabase
+        .from("festivals")
+        .select("*")
+        .eq("id", festivalId)
+        .single();
+
+      if (error || !data) {
+        document.getElementById("festival-content").innerHTML = "<p>Festival not found.</p>";
+        return;
+      }
+
+      const content = `
+        <h1>${data.name}</h1>
+        <img src="${data.image_url}" alt="${data.name}" style="max-width: 100%; border-radius: 12px;" />
+        <p><strong>Date:</strong> ${data.start_date} to ${data.end_date}</p>
+        <p><strong>Location:</strong> ${data.city}, ${data.region}, ${data.country}</p>
+        <p><strong>Festival Type:</strong> ${data.type.join(", ")}</p>
+        <p><strong>Description:</strong> ${data.description}</p>
+        <p><a href="${data.website_url}" target="_blank">Official Website</a></p>
+      `;
+
+      document.getElementById("festival-content").innerHTML = content;
+    }
+
+    // --- Run on page load ---
+    loadFestival();
+  </script>
+</head>
+<body>
+  <div class="top-banner">
+    <h1>GlobalFest Explorer</h1>
+  </div>
+
+  <section class="festival-detail-section">
+    <div id="festival-content" style="padding: 20px;">
+      <p>Loading festival details...</p>
+    </div>
+  </section>
+</body>
+</html>
