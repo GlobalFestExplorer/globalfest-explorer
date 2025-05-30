@@ -6,20 +6,17 @@
   <title>Festival Details</title>
   <link rel="stylesheet" href="css/style.css" />
   <script type="module">
-    // --- Supabase Setup ---
     import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
     const supabaseUrl = "https://fpmdbfrqwvxxtxglkbes.supabase.co";
     const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZwbWRiZnJxd3Z4eHR4Z2xrYmVzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg0ODg5MTIsImV4cCI6MjA2NDA2NDkxMn0.5Yk8WEzGeLNJRCl24dW1pUI5D32RJenExOE7XL9rvdQ";
     const supabase = createClient(supabaseUrl, supabaseKey);
 
-    // --- Helper: Get ID from URL ---
     function getFestivalId() {
       const params = new URLSearchParams(window.location.search);
       return params.get("id");
     }
 
-    // --- Populate Festival Data ---
     async function loadFestival() {
       const festivalId = getFestivalId();
       if (!festivalId) {
@@ -39,21 +36,76 @@
       }
 
       const content = `
-        <h1>${data.name}</h1>
-        <img src="${data.image_url}" alt="${data.name}" style="max-width: 100%; border-radius: 12px;" />
-        <p><strong>Date:</strong> ${data.start_date} to ${data.end_date}</p>
-        <p><strong>Location:</strong> ${data.city}, ${data.region}, ${data.country}</p>
-        <p><strong>Festival Type:</strong> ${data.type.join(", ")}</p>
-        <p><strong>Description:</strong> ${data.description}</p>
-        <p><a href="${data.website_url}" target="_blank">Official Website</a></p>
+        <section class="hero">
+          <img src="${data.image_url}" alt="${data.name}" class="hero-image" />
+          <div class="hero-text">
+            <h1>${data.name}</h1>
+            <p><strong>${data.city}, ${data.country}</strong> | ${data.start_date} – ${data.end_date}</p>
+          </div>
+          <div class="hero-links">
+            <a href="#" target="_blank">Gallery</a>
+            <a href="#" target="_blank">Tickets</a>
+            <a href="#" target="_blank">Map</a>
+            <a href="#" target="_blank">Video</a>
+            <a href="#" target="_blank">Travel Tips</a>
+          </div>
+        </section>
+
+        <section class="festival-section">
+          <h2>About the Festival</h2>
+          <p>${data.description}</p>
+        </section>
+
+        <section class="festival-section">
+          <h2>Historical Background</h2>
+          <p>${data.history}</p>
+        </section>
+
+        <section class="festival-section">
+          <h2>Cultural Objects & Traditions</h2>
+          <ul>
+            <li><strong>Symbolic Object:</strong> ${data.symbolic_object}</li>
+            <li><strong>Traditions:</strong> ${data.traditions}</li>
+          </ul>
+        </section>
+
+        <section class="festival-section">
+          <p><a href="${data.website_url}" target="_blank">Visit Official Website</a></p>
+        </section>
       `;
 
       document.getElementById("festival-content").innerHTML = content;
     }
 
-    // --- Run on page load ---
     loadFestival();
   </script>
+  <style>
+    .hero {
+      text-align: center;
+      padding: 20px;
+    }
+    .hero-image {
+      max-width: 100%;
+      height: auto;
+      border-radius: 12px;
+    }
+    .hero-text h1 {
+      margin-top: 15px;
+      font-size: 2.5em;
+    }
+    .hero-links a {
+      margin: 0 10px;
+      text-decoration: none;
+      color: #0077cc;
+    }
+    .festival-section {
+      margin: 30px 20px;
+    }
+    .festival-section h2 {
+      font-size: 1.5em;
+      margin-bottom: 10px;
+    }
+  </style>
 </head>
 <body>
   <div class="top-banner">
