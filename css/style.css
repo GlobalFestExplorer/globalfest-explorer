@@ -121,4 +121,25 @@ body {
   font-weight: 600;
   letter-spacing: 1px;
 }
+/* Search bar */
+.search-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.search-filters input,
+.search-filters button {
+  padding: 0.75rem;
+  font-size: 1rem;
+}
+
+#search-results {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
 
