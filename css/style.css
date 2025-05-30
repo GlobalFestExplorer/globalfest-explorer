@@ -9,15 +9,20 @@ body {
 
 /* Top Banner */
 .top-banner {
-  background-color: #14213d;
-  color: #ffffff;
+  background-color: #2a5d74;
+  padding: 20px 0;
   text-align: center;
-  padding: 20px;
-  font-size: 1.8em;
+}
+
+.top-banner h1 {
+  color: #ffffff;
+  font-size: 1.8rem;
+  margin: 0;
+  font-weight: 600;
   letter-spacing: 1px;
 }
 
-/* Hero Section */
+/* Hero Section for Event Page */
 .hero {
   display: flex;
   flex-direction: column;
