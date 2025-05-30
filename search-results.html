@@ -3,99 +3,88 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Search Results</title>
+  <title>Festival Search Results</title>
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
 
   <div class="top-banner">
-    <h1>Festival Search Results</h1>
+    <h1>Search Results</h1>
   </div>
 
-  <div class="results-container" id="event-list"></div>
-
-  <script type="module" src="js/search-results.js"></script>
-</body>
+  <section class="search-results">
+    <h2>Matching Festivals</h2>
+    <div id="results-container" class="event-cards"></div>
+    <p id="no-results" style="display: none;">No festivals found matching your criteria.</p>
+  </section>
 
   <script type="module">
-  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
-  const supabase = createClient(
-    'https://fpmdbfrqwvxxtxglkbes.supabase.co',
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZwbWRiZnJxd3Z4eHR4Z2xrYmVzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg0ODg5MTIsImV4cCI6MjA2NDA2NDkxMn0.5Yk8WEzGeLNJRCl24dW1pUI5D32RJenExOE7XL9rvdQ'
-  );
+    const supabaseUrl = 'https://fpmdbfrqwvxxtxglkbes.supabase.co'; 
+    const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZwbWRiZnJxd3Z4eHR4Z2xrYmVzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg0ODg5MTIsImV4cCI6MjA2NDA2NDkxMn0.5Yk8WEzGeLNJRCl24dW1pUI5D32RJenExOE7XL9rvdQ'; 
 
-  const container = document.getElementById('event-list');
+    const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
-  async function getFestivals() {
-    const { data, error } = await supabase
-      .from('festivals')
-      .select('*')
-      .order('start_date', { ascending: true });
+    async function fetchFilteredFestivals() {
+      const filters = JSON.parse(localStorage.getItem('searchFilters')) || {};
+      const { name, location, startDate, endDate } = filters;
 
-    if (error) {
-      console.error('Error fetching festivals:', error);
-      return [];
+      let query = supabase.from('festivals').select('*');
+
+      if (name) query = query.ilike('name', `%${name}%`);
+      if (location) query = query.or(`city.ilike.%${location}%,country.ilike.%${location}%,region.ilike.%${location}%`);
+      if (startDate) query = query.gte('start_date', startDate);
+      if (endDate) query = query.lte('end_date', endDate);
+
+      const { data: festivals, error } = await query;
+
+      if (error) {
+        console.error('Error fetching filtered festivals:', error);
+        return;
+      }
+
+      const container = document.getElementById('results-container');
+      const noResults = document.getElementById('no-results');
+
+      container.innerHTML = '';
+
+      if (festivals.length === 0) {
+        noResults.style.display = 'block';
+        return;
+      }
+
+      noResults.style.display = 'none';
+
+      festivals.forEach(festival => {
+        const card = document.createElement('a');
+        card.href = `event-detail.html?id=${festival.id}`;
+        card.className = 'event-card-link';
+
+        const start = new Date(festival.start_date);
+        const end = festival.end_date ? new Date(festival.end_date) : null;
+        const options = { month: 'short', day: 'numeric' };
+        const dateText = end
+          ? `${start.toLocaleDateString(undefined, options)} – ${end.toLocaleDateString(undefined, options)}`
+          : start.toLocaleDateString(undefined, options);
+
+        card.innerHTML = `
+          <div class="event-card">
+            <img src="${festival.image_url || 'images/default.jpg'}" alt="${festival.name}" />
+            <div class="event-info">
+              <h3>${festival.name}</h3>
+              <p>${festival.country}</p>
+              <p>${dateText}</p>
+            </div>
+          </div>
+        `;
+
+        container.appendChild(card);
+      });
     }
 
-    return data;
-  }
+    window.addEventListener('DOMContentLoaded', fetchFilteredFestivals);
+  </script>
 
-  function displayCigarCards(events) {
-    container.innerHTML = '';
-
-    events.forEach(event => {
-      const card = document.createElement('div');
-      card.className = 'cigar-card';
-      card.innerHTML = `
-        <img src="${event.image_url || 'images/placeholder.jpg'}" alt="${event.name}" />
-        <div class="cigar-card-info">
-          <h3>${event.name}</h3>
-          <p>${event.city || ''}, ${event.country || ''}</p>
-          <p>${formatDateRange(event.start_date, event.end_date)}</p>
-          <a href="event-detail.html?id=${event.id}">Details →</a>
-        </div>
-      `;
-      container.appendChild(card);
-    });
-  }
-
-  function formatDateRange(start, end) {
-    const s = new Date(start);
-    const e = end ? new Date(end) : null;
-    const opt = { month: 'short', day: 'numeric', year: 'numeric' };
-    return e ? `${s.toLocaleDateString(undefined, opt)} – ${e.toLocaleDateString(undefined, opt)}` : s.toLocaleDateString(undefined, opt);
-  }
-
-  async function runSearch() {
-    const filters = JSON.parse(localStorage.getItem('searchFilters')) || {};
-    const nameQuery = filters.query?.toLowerCase() || '';
-    const locationQuery = filters.location?.toLowerCase() || '';
-    const start = filters.startDate;
-    const end = filters.endDate;
-
-    const events = await getFestivals();
-
-    const filtered = events.filter(event => {
-      const matchesName = !nameQuery || event.name.toLowerCase().includes(nameQuery);
-      const matchesLocation = !locationQuery || [event.city, event.country, event.region]
-        .filter(Boolean)
-        .some(val => val.toLowerCase().includes(locationQuery));
-
-      const eventStart = new Date(event.start_date);
-      const eventEnd = event.end_date ? new Date(event.end_date) : eventStart;
-
-      const matchesDate =
-        (!start || eventEnd >= new Date(start)) &&
-        (!end || eventStart <= new Date(end));
-
-      return matchesName && matchesLocation && matchesDate;
-    });
-
-    displayCigarCards(filtered);
-  }
-
-  document.addEventListener('DOMContentLoaded', runSearch);
-</script>
-
+</body>
 </html>
