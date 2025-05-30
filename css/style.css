@@ -143,3 +143,35 @@ body {
   justify-content: center;
 }
 
+/* search results */
+
+.results-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 2rem;
+}
+
+.cigar-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background-color: #fff;
+  border-radius: 2rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  padding: 1rem;
+}
+
+.cigar-card img {
+  width: 150px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 1.5rem;
+}
+
+.cigar-card-info {
+  display: flex;
+  flex-direction: column;
+}
+
