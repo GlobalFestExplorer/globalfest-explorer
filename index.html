@@ -17,24 +17,25 @@
       <h1>Discover the world through festivals</h1>
     </div>
   </header>
-<section class="search-section">
-  <h2>Search Festivals</h2>
 
-  <div class="search-filters">
-    <input type="text" id="search-name" placeholder="Festival name..." />
-    <input type="text" id="search-location" placeholder="Destination (country, city, region)..." />
-    <input type="date" id="search-start" placeholder="Start date" />
-    <input type="date" id="search-end" placeholder="End date" />
-    <button id="search-button">Search</button>
-  </div>
+  <section class="search-section">
+    <h2>Search Festivals</h2>
 
-  <div id="search-results" class="event-cards"></div>
-</section>
+    <div class="search-filters">
+      <input type="text" id="search-name" placeholder="Festival name..." />
+      <input type="text" id="search-location" placeholder="Destination (country, city, region)..." />
+      <input type="date" id="search-start" placeholder="Start date" />
+      <input type="date" id="search-end" placeholder="End date" />
+      <button id="search-button">Search</button>
+    </div>
+
+    <div id="search-results" class="event-cards"></div>
+  </section>
 
   <section class="event-section">
     <h2>Featured Festivals</h2>
     <div class="event-cards">
-      
+
       <!-- Carnival in Rio -->
       <a href="event-detail.html?id=c5093bb1-f9e6-4fa3-bba4-6ac40a8ce869" class="event-card-link" data-festival-id="c5093bb1-f9e6-4fa3-bba4-6ac40a8ce869">
         <div class="event-card">
@@ -74,7 +75,7 @@
     </div>
   </section>
 
-  <!-- Supabase logic -->
+  <!-- Supabase fetch logic for featured cards -->
   <script type="module">
     import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
@@ -118,6 +119,25 @@
     }
 
     window.addEventListener('DOMContentLoaded', updateFestivalCards);
+  </script>
+
+  <!-- Search filter logic -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const searchButton = document.getElementById('search-button');
+
+      searchButton.addEventListener('click', () => {
+        const filters = {
+          name: document.getElementById('search-name').value.trim(),
+          location: document.getElementById('search-location').value.trim(),
+          startDate: document.getElementById('search-start').value,
+          endDate: document.getElementById('search-end').value
+        };
+
+        localStorage.setItem('searchFilters', JSON.stringify(filters));
+        window.location.href = 'search-results.html';
+      });
+    });
   </script>
 
 </body>
