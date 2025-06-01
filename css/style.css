@@ -1,4 +1,4 @@
-/* Base styles */
+/* Reset & Typography */
 * {
   margin: 0;
   padding: 0;
@@ -12,46 +12,161 @@ body {
   line-height: 1.6;
 }
 
-/* Hero Header Section */
-.hero-header {
-  background-image: url('../images/header.jpg');
+/* Top Banner */
+.top-header,
+.top-banner {
+  background-color: #2a5d74;
+  color: #fff;
+  text-align: center;
+  padding: 1.5rem;
+  font-size: 1.8rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+/* Hero Section for Event Page */
+.hero-image {
+  width: 100%;
+  height: 350px;
   background-size: cover;
   background-position: center;
-  height: 300px;
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .hero-overlay {
-  background-color: rgba(0, 0, 0, 0.5); /* dark overlay */
-  color: #fff;
-  width: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1rem;
 }
 
-.hero-header h1 {
+.event-name {
+  color: #fff;
   font-size: 2.5rem;
   font-weight: bold;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
   text-align: center;
+  padding: 0 1rem;
 }
 
-/* Event Section */
-.event-section {
-  padding: 60px 20px;
-  background-color: #f8f9fa;
-  text-align: center;
+/* Event Details Sections */
+.section,
+.instagram-feed,
+.accommodation-section {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 0 1.5rem;
 }
 
-.event-section h2 {
-  font-size: 2rem;
-  margin-bottom: 30px;
-  color: #222;
+.section h3,
+.instagram-feed h3,
+.accommodation-section h3 {
+  font-size: 1.6rem;
+  color: #2a5d74;
+  margin-bottom: 10px;
+}
+
+.section p {
+  font-size: 1.05rem;
+  color: #444;
+  line-height: 1.7;
+}
+
+/* Instagram Grid */
+.insta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.insta-post {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background-color: #ddd;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Accommodation Cards */
+.accommodation-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.accommodation-card {
+  flex: 1 1 220px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.accommodation-card:hover {
+  transform: translateY(-5px);
+}
+
+.accommodation-card img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+}
+
+.accommodation-card h4 {
+  margin: 10px 0 5px;
+  color: #2a5d74;
+}
+
+.accommodation-card p {
+  font-size: 0.95rem;
+  color: #666;
+  margin-bottom: 1rem;
+}
+
+/* Search Filters */
+.search-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  background-color: #2a5d74;
+  border-radius: 30px;
+  padding: 15px 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  align-items: center;
+  justify-content: center;
+  max-width: 940px;
+  margin: 2rem auto;
+}
+
+.search-filters input,
+.search-filters button {
+  border: none;
+  border-radius: 20px;
+  padding: 10px 15px;
+  font-size: 1rem;
+  outline: none;
+}
+
+.search-filters input {
+  flex: 1 1 180px;
+  min-width: 150px;
+}
+
+.search-filters button {
+  background-color: #ffffff;
+  color: #2a5d74;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.search-filters button:hover {
+  background-color: #f0f8ff;
 }
 
 /* Event Cards Layout */
@@ -60,13 +175,13 @@ body {
   justify-content: center;
   gap: 20px;
   flex-wrap: wrap;
+  padding: 0 1rem 2rem;
 }
 
-/* Individual Card */
 .event-card {
   background-color: #fff;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   width: 300px;
   overflow: hidden;
   text-align: left;
@@ -101,116 +216,28 @@ body {
   color: #666;
 }
 
-/* Make event cards clickable */
 .event-card-link {
   text-decoration: none;
   color: inherit;
 }
 
-/* Top Banner */
-.top-banner {
-  background-color: #2a5d74; /* dark pastel blue */
-  padding: 20px 0;
-  text-align: center;
-}
+/* Responsive Fixes */
+@media (max-width: 768px) {
+  .event-name {
+    font-size: 2rem;
+  }
 
-.top-banner h1 {
-  color: #ffffff;
-  font-size: 1.8rem;
-  margin: 0;
-  font-weight: 600;
-  letter-spacing: 1px;
-}
-/* Search bar */
-.search-filters {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  justify-content: center;
-  margin-bottom: 2rem;
-}
+  .accommodation-cards {
+    flex-direction: column;
+    align-items: center;
+  }
 
-.search-filters input,
-.search-filters button {
-  padding: 0.75rem;
-  font-size: 1rem;
-}
+  .insta-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 
-#search-results {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  justify-content: center;
-}
-
-/* search results */
-
-.results-container {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  padding: 2rem;
-}
-
-.cigar-card {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  background-color: #fff;
-  border-radius: 2rem;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  padding: 1rem;
-}
-
-.cigar-card img {
-  width: 150px;
-  height: 100px;
-  object-fit: cover;
-  border-radius: 1.5rem;
-}
-
-.cigar-card-info {
-  display: flex;
-  flex-direction: column;
-}
-
-.search-filters {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  background-color: #2a5d74; /* Same blue as top banner */
-  border-radius: 30px;
-  padding: 15px 20px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  align-items: center;
-  justify-content: center;
-  max-width: 940px;
-  margin: 0 auto;
-}
-
-.search-filters input,
-.search-filters button {
-  border: none;
-  border-radius: 20px;
-  padding: 10px 15px;
-  font-size: 1rem;
-  outline: none;
-}
-
-.search-filters input {
-  flex: 1 1 180px;
-  min-width: 150px;
-}
-
-.search-filters button {
-  background-color: #ffffff;
-  color: #2a5d74;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.search-filters button:hover {
-  background-color: #f0f8ff;
+  .event-cards {
+    flex-direction: column;
+    align-items: center;
+  }
 }
