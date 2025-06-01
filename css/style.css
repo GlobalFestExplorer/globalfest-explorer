@@ -294,5 +294,47 @@ body {
   flex: 1 1 220px;
   background-color: #fff;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0,
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.accommodation-card:hover {
+  transform: translateY(-5px);
+}
+
+.accommodation-card img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+}
+
+.accommodation-card h4 {
+  margin: 10px 0 5px;
+  color: #2a5d74;
+}
+
+.accommodation-card p {
+  font-size: 0.95rem;
+  color: #666;
+  margin-bottom: 1rem;
+}
+
+/* Responsive Fixes for Event Page */
+@media (max-width: 768px) {
+  .event-name {
+    font-size: 2rem;
+  }
+
+  .accommodation-cards {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .insta-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 
