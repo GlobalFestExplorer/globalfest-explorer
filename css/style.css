@@ -1,243 +1,126 @@
-/* Reset & Typography */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
+/* General Reset & Typography */
 body {
-  font-family: Arial, sans-serif;
-  background-color: #f9f9f9;
-  color: #333;
+  margin: 0;
+  font-family: 'Segoe UI', Roboto, sans-serif;
   line-height: 1.6;
+  color: #333;
+  background-color: #fafafa;
 }
 
 /* Top Banner */
-.top-header,
 .top-banner {
   background-color: #2a5d74;
-  color: #fff;
+  padding: 20px 0;
   text-align: center;
-  padding: 1.5rem;
+}
+
+.top-banner h1 {
+  color: #ffffff;
   font-size: 1.8rem;
+  margin: 0;
   font-weight: 600;
   letter-spacing: 1px;
 }
 
 /* Hero Section for Event Page */
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px 20px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #ddd;
+}
+
 .hero-image {
   width: 100%;
-  height: 350px;
-  background-size: cover;
-  background-position: center;
-  position: relative;
-}
-
-.hero-overlay {
-  background-color: rgba(0, 0, 0, 0.4);
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.event-name {
-  color: #fff;
-  font-size: 2.5rem;
-  font-weight: bold;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
-  text-align: center;
-  padding: 0 1rem;
-}
-
-/* Event Details Sections */
-.section,
-.instagram-feed,
-.accommodation-section {
   max-width: 1000px;
-  margin: 40px auto;
-  padding: 0 1.5rem;
+  height: auto;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
-.section h3,
-.instagram-feed h3,
-.accommodation-section h3 {
-  font-size: 1.6rem;
-  color: #2a5d74;
-  margin-bottom: 10px;
-}
-
-.section p {
-  font-size: 1.05rem;
-  color: #444;
-  line-height: 1.7;
-}
-
-/* Instagram Grid */
-.insta-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 1rem;
-  margin-top: 1rem;
-}
-
-.insta-post {
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  background-color: #ddd;
-  border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-}
-
-/* Accommodation Cards */
-.accommodation-cards {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.5rem;
-  margin-top: 1rem;
-}
-
-.accommodation-card {
-  flex: 1 1 220px;
-  background-color: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
+.hero-text {
+  margin-top: 20px;
   text-align: center;
-  transition: transform 0.3s ease;
 }
 
-.accommodation-card:hover {
-  transform: translateY(-5px);
+.hero-text h1 {
+  font-size: 2.4rem;
+  margin-bottom: 10px;
+  color: #14213d;
 }
 
-.accommodation-card img {
-  width: 100%;
-  height: 150px;
-  object-fit: cover;
+.hero-text p {
+  font-size: 1.1rem;
+  color: #555;
 }
 
-.accommodation-card h4 {
-  margin: 10px 0 5px;
-  color: #2a5d74;
-}
-
-.accommodation-card p {
-  font-size: 0.95rem;
-  color: #666;
-  margin-bottom: 1rem;
-}
-
-/* Search Filters */
-.search-filters {
+/* Hero Links */
+.hero-links {
+  margin-top: 15px;
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
-  background-color: #2a5d74;
-  border-radius: 30px;
-  padding: 15px 20px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  align-items: center;
   justify-content: center;
-  max-width: 940px;
-  margin: 2rem auto;
+  gap: 12px;
 }
 
-.search-filters input,
-.search-filters button {
-  border: none;
-  border-radius: 20px;
-  padding: 10px 15px;
-  font-size: 1rem;
-  outline: none;
-}
-
-.search-filters input {
-  flex: 1 1 180px;
-  min-width: 150px;
-}
-
-.search-filters button {
-  background-color: #ffffff;
-  color: #2a5d74;
-  font-weight: bold;
-  cursor: pointer;
+.hero-links a {
+  background-color: #fca311;
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
   transition: background-color 0.3s ease;
 }
 
-.search-filters button:hover {
-  background-color: #f0f8ff;
+.hero-links a:hover {
+  background-color: #e58f00;
 }
 
-/* Event Cards Layout */
-.event-cards {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  flex-wrap: wrap;
-  padding: 0 1rem 2rem;
+/* Festival Detail Section */
+.festival-detail-section {
+  max-width: 900px;
+  margin: 40px auto;
+  background-color: #ffffff;
+  padding: 30px 25px;
+  border-radius: 16px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
 }
 
-.event-card {
-  background-color: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  width: 300px;
-  overflow: hidden;
-  text-align: left;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  cursor: pointer;
+.festival-detail-section h2 {
+  font-size: 1.6rem;
+  color: #14213d;
+  margin-bottom: 15px;
 }
 
-.event-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+.festival-detail-section p,
+.festival-detail-section ul {
+  font-size: 1.05rem;
+  color: #444;
 }
 
-.event-card img {
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
+.festival-detail-section ul {
+  padding-left: 20px;
 }
 
-.event-info {
-  padding: 20px;
+.festival-detail-section li {
+  margin-bottom: 8px;
 }
 
-.event-info h3 {
-  margin: 0 0 5px 0;
-  font-size: 1.2rem;
-  color: #333;
-}
-
-.event-info p {
-  margin: 4px 0;
-  font-size: 0.95rem;
-  color: #666;
-}
-
-.event-card-link {
-  text-decoration: none;
-  color: inherit;
-}
-
-/* Responsive Fixes */
+/* Responsive Layout */
 @media (max-width: 768px) {
-  .event-name {
-    font-size: 2rem;
+  .hero-text h1 {
+    font-size: 1.8rem;
   }
 
-  .accommodation-cards {
-    flex-direction: column;
-    align-items: center;
+  .hero-links a {
+    padding: 8px 12px;
+    font-size: 0.9rem;
   }
 
-  .insta-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .event-cards {
-    flex-direction: column;
-    align-items: center;
+  .festival-detail-section {
+    padding: 20px 15px;
   }
 }
