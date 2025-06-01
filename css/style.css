@@ -1,15 +1,115 @@
-/* General Reset & Typography */
-body {
+/* Base styles */
+* {
   margin: 0;
-  font-family: 'Segoe UI', Roboto, sans-serif;
-  line-height: 1.6;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
   color: #333;
-  background-color: #fafafa;
+  line-height: 1.6;
+}
+
+/* Hero Header Section */
+.hero-header {
+  background-image: url('../images/header.jpg');
+  background-size: cover;
+  background-position: center;
+  height: 300px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-overlay {
+  background-color: rgba(0, 0, 0, 0.5); /* dark overlay */
+  color: #fff;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.hero-header h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Event Section */
+.event-section {
+  padding: 60px 20px;
+  background-color: #f8f9fa;
+  text-align: center;
+}
+
+.event-section h2 {
+  font-size: 2rem;
+  margin-bottom: 30px;
+  color: #222;
+}
+
+/* Event Cards Layout */
+.event-cards {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+/* Individual Card */
+.event-card {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  width: 300px;
+  overflow: hidden;
+  text-align: left;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.event-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.event-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.event-info {
+  padding: 20px;
+}
+
+.event-info h3 {
+  margin: 0 0 5px 0;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.event-info p {
+  margin: 4px 0;
+  font-size: 0.95rem;
+  color: #666;
+}
+
+/* Make event cards clickable */
+.event-card-link {
+  text-decoration: none;
+  color: inherit;
 }
 
 /* Top Banner */
 .top-banner {
-  background-color: #2a5d74;
+  background-color: #2a5d74; /* dark pastel blue */
   padding: 20px 0;
   text-align: center;
 }
@@ -21,106 +121,96 @@ body {
   font-weight: 600;
   letter-spacing: 1px;
 }
-
-/* Hero Section for Event Page */
-.hero {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 30px 20px;
-  background-color: #ffffff;
-  border-bottom: 1px solid #ddd;
-}
-
-.hero-image {
-  width: 100%;
-  max-width: 1000px;
-  height: auto;
-  border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-
-.hero-text {
-  margin-top: 20px;
-  text-align: center;
-}
-
-.hero-text h1 {
-  font-size: 2.4rem;
-  margin-bottom: 10px;
-  color: #14213d;
-}
-
-.hero-text p {
-  font-size: 1.1rem;
-  color: #555;
-}
-
-/* Hero Links */
-.hero-links {
-  margin-top: 15px;
+/* Search bar */
+.search-filters {
   display: flex;
   flex-wrap: wrap;
+  gap: 1rem;
   justify-content: center;
-  gap: 12px;
+  margin-bottom: 2rem;
 }
 
-.hero-links a {
-  background-color: #fca311;
-  color: #fff;
-  padding: 10px 16px;
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: 600;
+.search-filters input,
+.search-filters button {
+  padding: 0.75rem;
+  font-size: 1rem;
+}
+
+#search-results {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+
+/* search results */
+
+.results-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 2rem;
+}
+
+.cigar-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background-color: #fff;
+  border-radius: 2rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  padding: 1rem;
+}
+
+.cigar-card img {
+  width: 150px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 1.5rem;
+}
+
+.cigar-card-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.search-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  background-color: #2a5d74; /* Same blue as top banner */
+  border-radius: 30px;
+  padding: 15px 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  align-items: center;
+  justify-content: center;
+  max-width: 940px;
+  margin: 0 auto;
+}
+
+.search-filters input,
+.search-filters button {
+  border: none;
+  border-radius: 20px;
+  padding: 10px 15px;
+  font-size: 1rem;
+  outline: none;
+}
+
+.search-filters input {
+  flex: 1 1 180px;
+  min-width: 150px;
+}
+
+.search-filters button {
+  background-color: #ffffff;
+  color: #2a5d74;
+  font-weight: bold;
+  cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
-.hero-links a:hover {
-  background-color: #e58f00;
-}
-
-/* Festival Detail Section */
-.festival-detail-section {
-  max-width: 900px;
-  margin: 40px auto;
-  background-color: #ffffff;
-  padding: 30px 25px;
-  border-radius: 16px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-}
-
-.festival-detail-section h2 {
-  font-size: 1.6rem;
-  color: #14213d;
-  margin-bottom: 15px;
-}
-
-.festival-detail-section p,
-.festival-detail-section ul {
-  font-size: 1.05rem;
-  color: #444;
-}
-
-.festival-detail-section ul {
-  padding-left: 20px;
-}
-
-.festival-detail-section li {
-  margin-bottom: 8px;
-}
-
-/* Responsive Layout */
-@media (max-width: 768px) {
-  .hero-text h1 {
-    font-size: 1.8rem;
-  }
-
-  .hero-links a {
-    padding: 8px 12px;
-    font-size: 0.9rem;
-  }
-
-  .festival-detail-section {
-    padding: 20px 15px;
-  }
+.search-filters button:hover {
+  background-color: #f0f8ff;
 }
