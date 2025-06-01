@@ -1,126 +1,121 @@
-/* General Reset & Typography */
-body {
-  margin: 0;
-  font-family: 'Segoe UI', Roboto, sans-serif;
-  line-height: 1.6;
-  color: #333;
-  background-color: #fafafa;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Festival Details</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <script type="module">
+    import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
-/* Top Banner */
-.top-banner {
-  background-color: #2a5d74;
-  padding: 20px 0;
-  text-align: center;
-}
+    const supabaseUrl = "https://fpmdbfrqwvxxtxglkbes.supabase.co";
+    const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZwbWRiZnJxd3Z4eHR4Z2xrYmVzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg0ODg5MTIsImV4cCI6MjA2NDA2NDkxMn0.5Yk8WEzGeLNJRCl24dW1pUI5D32RJenExOE7XL9rvdQ";
+    const supabase = createClient(supabaseUrl, supabaseKey);
 
-.top-banner h1 {
-  color: #ffffff;
-  font-size: 1.8rem;
-  margin: 0;
-  font-weight: 600;
-  letter-spacing: 1px;
-}
+    function getFestivalId() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get("id");
+    }
 
-/* Hero Section for Event Page */
-.hero {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 30px 20px;
-  background-color: #ffffff;
-  border-bottom: 1px solid #ddd;
-}
+    async function loadFestival() {
+      const festivalId = getFestivalId();
+      if (!festivalId) {
+        document.getElementById("festival-content").innerHTML = "<p>Festival ID not found in URL.</p>";
+        return;
+      }
 
-.hero-image {
-  width: 100%;
-  max-width: 1000px;
-  height: auto;
-  border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
+      const { data, error } = await supabase
+        .from("festivals")
+        .select("*")
+        .eq("id", festivalId)
+        .single();
 
-.hero-text {
-  margin-top: 20px;
-  text-align: center;
-}
+      if (error || !data) {
+        document.getElementById("festival-content").innerHTML = "<p>Festival not found.</p>";
+        return;
+      }
 
-.hero-text h1 {
-  font-size: 2.4rem;
-  margin-bottom: 10px;
-  color: #14213d;
-}
+      const content = `
+        <section class="hero">
+          <img src="${data.image_url}" alt="${data.name}" class="hero-image" />
+          <div class="hero-text">
+            <h1>${data.name}</h1>
+            <p><strong>${data.city}, ${data.country}</strong> | ${data.start_date} – ${data.end_date}</p>
+          </div>
+          <div class="hero-links">
+            <a href="#" target="_blank">Gallery</a>
+            <a href="#" target="_blank">Tickets</a>
+            <a href="#" target="_blank">Map</a>
+            <a href="#" target="_blank">Video</a>
+            <a href="#" target="_blank">Travel Tips</a>
+          </div>
+        </section>
 
-.hero-text p {
-  font-size: 1.1rem;
-  color: #555;
-}
+        <section class="festival-section">
+          <h2>About the Festival</h2>
+          <p>${data.description}</p>
+        </section>
 
-/* Hero Links */
-.hero-links {
-  margin-top: 15px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 12px;
-}
+        <section class="festival-section">
+          <h2>Historical Background</h2>
+          <p>${data.history}</p>
+        </section>
 
-.hero-links a {
-  background-color: #fca311;
-  color: #fff;
-  padding: 10px 16px;
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: 600;
-  transition: background-color 0.3s ease;
-}
+        <section class="festival-section">
+          <h2>Cultural Objects & Traditions</h2>
+          <ul>
+            <li><strong>Symbolic Object:</strong> ${data.symbolic_object}</li>
+            <li><strong>Traditions:</strong> ${data.traditions}</li>
+          </ul>
+        </section>
 
-.hero-links a:hover {
-  background-color: #e58f00;
-}
+        <section class="festival-section">
+          <p><a href="${data.website_url}" target="_blank">Visit Official Website</a></p>
+        </section>
+      `;
 
-/* Festival Detail Section */
-.festival-detail-section {
-  max-width: 900px;
-  margin: 40px auto;
-  background-color: #ffffff;
-  padding: 30px 25px;
-  border-radius: 16px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-}
+      document.getElementById("festival-content").innerHTML = content;
+    }
 
-.festival-detail-section h2 {
-  font-size: 1.6rem;
-  color: #14213d;
-  margin-bottom: 15px;
-}
+    loadFestival();
+  </script>
+  <style>
+    .hero {
+      text-align: center;
+      padding: 20px;
+    }
+    .hero-image {
+      max-width: 100%;
+      height: auto;
+      border-radius: 12px;
+    }
+    .hero-text h1 {
+      margin-top: 15px;
+      font-size: 2.5em;
+    }
+    .hero-links a {
+      margin: 0 10px;
+      text-decoration: none;
+      color: #0077cc;
+    }
+    .festival-section {
+      margin: 30px 20px;
+    }
+    .festival-section h2 {
+      font-size: 1.5em;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="top-banner">
+    <h1>GlobalFest Explorer</h1>
+  </div>
 
-.festival-detail-section p,
-.festival-detail-section ul {
-  font-size: 1.05rem;
-  color: #444;
-}
-
-.festival-detail-section ul {
-  padding-left: 20px;
-}
-
-.festival-detail-section li {
-  margin-bottom: 8px;
-}
-
-/* Responsive Layout */
-@media (max-width: 768px) {
-  .hero-text h1 {
-    font-size: 1.8rem;
-  }
-
-  .hero-links a {
-    padding: 8px 12px;
-    font-size: 0.9rem;
-  }
-
-  .festival-detail-section {
-    padding: 20px 15px;
-  }
-}
+  <section class="festival-detail-section">
+    <div id="festival-content" style="padding: 20px;">
+      <p>Loading festival details...</p>
+    </div>
+  </section>
+</body>
+</html>
