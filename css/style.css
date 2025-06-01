@@ -336,5 +336,11 @@ body {
     grid-template-columns: repeat(2, 1fr);
   }
 }
-
+.section,
+.instagram-feed,
+.accommodation-section {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 0 1.5rem;
+}
 
