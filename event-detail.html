@@ -1,16 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Festival Details</title>
-  <link rel="stylesheet" href="css/style.css" />
-  <script type="module">
-    import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Festival Event Page</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Top Header Bar -->
+  <header class="top-header">
+    <h1>GlobalFest Explorer</h1>
+  </header>
 
-    const supabaseUrl = "https://fpmdbfrqwvxxtxglkbes.supabase.co";
-    const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZwbWRiZnJxd3Z4eHR4Z2xrYmVzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg0ODg5MTIsImV4cCI6MjA2NDA2NDkxMn0.5Yk8WEzGeLNJRCl24dW1pUI5D32RJenExOE7XL9rvdQ";
-    const supabase = createClient(supabaseUrl, supabaseKey);
+  <!-- Hero Section with Event Name Embedded -->
+  <section class="hero-section">
+    <div id="hero-image" class="hero-image">
+      <div class="hero-overlay">
+        <h2 id="event-name" class="event-name">Festival Name</h2>
+      </div>
+    </div>
+  </section>
+
+  <!-- Event Details Section -->
+  <section class="event-info">
+    <div class="section">
+      <h3>About the Festival</h3>
+      <p id="festival-description">Loading description...</p>
+    </div>
+
+    <div class="section">
+      <h3>Historical Background</h3>
+      <p id="festival-history">Loading history...</p>
+    </div>
+
+    <div class="section">
+      <h3>Traditional Elements</h3>
+      <p id="festival-traditions">Loading traditions...</p>
+    </div>
+  </section>
+
+  <!-- Instagram Feed (2x4 Grid) -->
+  <section class="instagram-feed">
+    <h3>Festival Highlights</h3>
+    <div class="insta-grid" id="insta-grid">
+      <!-- Dynamic posts will be injected here -->
+    </div>
+  </section>
+
+  <!-- Accommodation Listings -->
+  <section class="accommodation-section">
+    <h3>Stay Nearby</h3>
+    <div class="accommodation-cards" id="accommodation-cards">
+      <!-- Accommodation cards will be injected here -->
+    </div>
+  </section>
+
+  <!-- Supabase fetch logic -->
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+    const supabaseUrl = 'https://fpmdbfrqwvxxtxglkbes.supabase.co';
+    const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZwbWRiZnJxd3Z4eHR4Z2xrYmVzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg0ODg5MTIsImV4cCI6MjA2NDA2NDkxMn0.5Yk8WEzGeLNJRCl24dW1pUI5D32RJenExOE7XL9rvdQ';
+    const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
     function getFestivalId() {
       const params = new URLSearchParams(window.location.search);
@@ -19,103 +70,49 @@
 
     async function loadFestival() {
       const festivalId = getFestivalId();
-      if (!festivalId) {
-        document.getElementById("festival-content").innerHTML = "<p>Festival ID not found in URL.</p>";
-        return;
-      }
+      if (!festivalId) return;
 
       const { data, error } = await supabase
-        .from("festivals")
+        .from("events")
         .select("*")
         .eq("id", festivalId)
         .single();
 
-      if (error || !data) {
-        document.getElementById("festival-content").innerHTML = "<p>Festival not found.</p>";
-        return;
+      if (error || !data) return;
+
+      document.getElementById("event-name").textContent = data.name;
+      document.getElementById("hero-image").style.backgroundImage = `url('${data.image_url}')`;
+      document.getElementById("festival-description").textContent = data.description;
+      document.getElementById("festival-history").textContent = data.history;
+      document.getElementById("festival-traditions").textContent = data.traditions;
+
+      // Example: Inject Instagram placeholders (replace with real embed logic)
+      const instaGrid = document.getElementById("insta-grid");
+      for (let i = 0; i < 8; i++) {
+        const post = document.createElement("div");
+        post.className = "insta-post";
+        instaGrid.appendChild(post);
       }
 
-      const content = `
-        <section class="hero">
-          <img src="${data.image_url}" alt="${data.name}" class="hero-image" />
-          <div class="hero-text">
-            <h1>${data.name}</h1>
-            <p><strong>${data.city}, ${data.country}</strong> | ${data.start_date} – ${data.end_date}</p>
-          </div>
-          <div class="hero-links">
-            <a href="#" target="_blank">Gallery</a>
-            <a href="#" target="_blank">Tickets</a>
-            <a href="#" target="_blank">Map</a>
-            <a href="#" target="_blank">Video</a>
-            <a href="#" target="_blank">Travel Tips</a>
-          </div>
-        </section>
-
-        <section class="festival-section">
-          <h2>About the Festival</h2>
-          <p>${data.description}</p>
-        </section>
-
-        <section class="festival-section">
-          <h2>Historical Background</h2>
-          <p>${data.history}</p>
-        </section>
-
-        <section class="festival-section">
-          <h2>Cultural Objects & Traditions</h2>
-          <ul>
-            <li><strong>Symbolic Object:</strong> ${data.symbolic_object}</li>
-            <li><strong>Traditions:</strong> ${data.traditions}</li>
-          </ul>
-        </section>
-
-        <section class="festival-section">
-          <p><a href="${data.website_url}" target="_blank">Visit Official Website</a></p>
-        </section>
-      `;
-
-      document.getElementById("festival-content").innerHTML = content;
+      // Example: Inject accommodation listings (replace with real data later)
+      const accContainer = document.getElementById("accommodation-cards");
+      const accommodations = [
+        { name: "Hotel Paradise", price: "$120", image: "hotel1.jpg" },
+        { name: "Cozy Stay", price: "$85", image: "hotel2.jpg" }
+      ];
+      accommodations.forEach(acc => {
+        const card = document.createElement("div");
+        card.className = "accommodation-card";
+        card.innerHTML = `
+          <img src="${acc.image}" alt="${acc.name}">
+          <h4>${acc.name}</h4>
+          <p>From ${acc.price}/night</p>
+        `;
+        accContainer.appendChild(card);
+      });
     }
 
     loadFestival();
   </script>
-  <style>
-    .hero {
-      text-align: center;
-      padding: 20px;
-    }
-    .hero-image {
-      max-width: 100%;
-      height: auto;
-      border-radius: 12px;
-    }
-    .hero-text h1 {
-      margin-top: 15px;
-      font-size: 2.5em;
-    }
-    .hero-links a {
-      margin: 0 10px;
-      text-decoration: none;
-      color: #0077cc;
-    }
-    .festival-section {
-      margin: 30px 20px;
-    }
-    .festival-section h2 {
-      font-size: 1.5em;
-      margin-bottom: 10px;
-    }
-  </style>
-</head>
-<body>
-  <div class="top-banner">
-    <h1>GlobalFest Explorer</h1>
-  </div>
-
-  <section class="festival-detail-section">
-    <div id="festival-content" style="padding: 20px;">
-      <p>Loading festival details...</p>
-    </div>
-  </section>
 </body>
 </html>
