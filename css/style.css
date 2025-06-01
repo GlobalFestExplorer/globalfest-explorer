@@ -1,121 +1,216 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Festival Details</title>
-  <link rel="stylesheet" href="css/style.css" />
-  <script type="module">
-    import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+/* Base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-    const supabaseUrl = "https://fpmdbfrqwvxxtxglkbes.supabase.co";
-    const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZwbWRiZnJxd3Z4eHR4Z2xrYmVzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg0ODg5MTIsImV4cCI6MjA2NDA2NDkxMn0.5Yk8WEzGeLNJRCl24dW1pUI5D32RJenExOE7XL9rvdQ";
-    const supabase = createClient(supabaseUrl, supabaseKey);
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+  color: #333;
+  line-height: 1.6;
+}
 
-    function getFestivalId() {
-      const params = new URLSearchParams(window.location.search);
-      return params.get("id");
-    }
+/* Hero Header Section */
+.hero-header {
+  background-image: url('../images/header.jpg');
+  background-size: cover;
+  background-position: center;
+  height: 300px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-    async function loadFestival() {
-      const festivalId = getFestivalId();
-      if (!festivalId) {
-        document.getElementById("festival-content").innerHTML = "<p>Festival ID not found in URL.</p>";
-        return;
-      }
+.hero-overlay {
+  background-color: rgba(0, 0, 0, 0.5); /* dark overlay */
+  color: #fff;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
 
-      const { data, error } = await supabase
-        .from("festivals")
-        .select("*")
-        .eq("id", festivalId)
-        .single();
+.hero-header h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  text-align: center;
+}
 
-      if (error || !data) {
-        document.getElementById("festival-content").innerHTML = "<p>Festival not found.</p>";
-        return;
-      }
+/* Event Section */
+.event-section {
+  padding: 60px 20px;
+  background-color: #f8f9fa;
+  text-align: center;
+}
 
-      const content = `
-        <section class="hero">
-          <img src="${data.image_url}" alt="${data.name}" class="hero-image" />
-          <div class="hero-text">
-            <h1>${data.name}</h1>
-            <p><strong>${data.city}, ${data.country}</strong> | ${data.start_date} – ${data.end_date}</p>
-          </div>
-          <div class="hero-links">
-            <a href="#" target="_blank">Gallery</a>
-            <a href="#" target="_blank">Tickets</a>
-            <a href="#" target="_blank">Map</a>
-            <a href="#" target="_blank">Video</a>
-            <a href="#" target="_blank">Travel Tips</a>
-          </div>
-        </section>
+.event-section h2 {
+  font-size: 2rem;
+  margin-bottom: 30px;
+  color: #222;
+}
 
-        <section class="festival-section">
-          <h2>About the Festival</h2>
-          <p>${data.description}</p>
-        </section>
+/* Event Cards Layout */
+.event-cards {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
 
-        <section class="festival-section">
-          <h2>Historical Background</h2>
-          <p>${data.history}</p>
-        </section>
+/* Individual Card */
+.event-card {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  width: 300px;
+  overflow: hidden;
+  text-align: left;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
 
-        <section class="festival-section">
-          <h2>Cultural Objects & Traditions</h2>
-          <ul>
-            <li><strong>Symbolic Object:</strong> ${data.symbolic_object}</li>
-            <li><strong>Traditions:</strong> ${data.traditions}</li>
-          </ul>
-        </section>
+.event-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
 
-        <section class="festival-section">
-          <p><a href="${data.website_url}" target="_blank">Visit Official Website</a></p>
-        </section>
-      `;
+.event-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
 
-      document.getElementById("festival-content").innerHTML = content;
-    }
+.event-info {
+  padding: 20px;
+}
 
-    loadFestival();
-  </script>
-  <style>
-    .hero {
-      text-align: center;
-      padding: 20px;
-    }
-    .hero-image {
-      max-width: 100%;
-      height: auto;
-      border-radius: 12px;
-    }
-    .hero-text h1 {
-      margin-top: 15px;
-      font-size: 2.5em;
-    }
-    .hero-links a {
-      margin: 0 10px;
-      text-decoration: none;
-      color: #0077cc;
-    }
-    .festival-section {
-      margin: 30px 20px;
-    }
-    .festival-section h2 {
-      font-size: 1.5em;
-      margin-bottom: 10px;
-    }
-  </style>
-</head>
-<body>
-  <div class="top-banner">
-    <h1>GlobalFest Explorer</h1>
-  </div>
+.event-info h3 {
+  margin: 0 0 5px 0;
+  font-size: 1.2rem;
+  color: #333;
+}
 
-  <section class="festival-detail-section">
-    <div id="festival-content" style="padding: 20px;">
-      <p>Loading festival details...</p>
-    </div>
-  </section>
-</body>
-</html>
+.event-info p {
+  margin: 4px 0;
+  font-size: 0.95rem;
+  color: #666;
+}
+
+/* Make event cards clickable */
+.event-card-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Top Banner */
+.top-banner {
+  background-color: #2a5d74; /* dark pastel blue */
+  padding: 20px 0;
+  text-align: center;
+}
+
+.top-banner h1 {
+  color: #ffffff;
+  font-size: 1.8rem;
+  margin: 0;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+/* Search bar */
+.search-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.search-filters input,
+.search-filters button {
+  padding: 0.75rem;
+  font-size: 1rem;
+}
+
+#search-results {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+
+/* search results */
+
+.results-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 2rem;
+}
+
+.cigar-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background-color: #fff;
+  border-radius: 2rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  padding: 1rem;
+}
+
+.cigar-card img {
+  width: 150px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 1.5rem;
+}
+
+.cigar-card-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.search-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  background-color: #2a5d74; /* Same blue as top banner */
+  border-radius: 30px;
+  padding: 15px 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  align-items: center;
+  justify-content: center;
+  max-width: 940px;
+  margin: 0 auto;
+}
+
+.search-filters input,
+.search-filters button {
+  border: none;
+  border-radius: 20px;
+  padding: 10px 15px;
+  font-size: 1rem;
+  outline: none;
+}
+
+.search-filters input {
+  flex: 1 1 180px;
+  min-width: 150px;
+}
+
+.search-filters button {
+  background-color: #ffffff;
+  color: #2a5d74;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.search-filters button:hover {
+  background-color: #f0f8ff;
+}
