@@ -22,7 +22,7 @@
   </section>
 
   <!-- Event Details Section -->
-  <section class="event-info">
+  <section class="event-section">
     <div class="section">
       <h3>About the Festival</h3>
       <p id="festival-description">Loading description...</p>
@@ -93,26 +93,6 @@
         post.className = "insta-post";
         instaGrid.appendChild(post);
       }
-
-      // Example: Inject accommodation listings (replace with real data later)
-      const accContainer = document.getElementById("accommodation-cards");
-      const accommodations = [
-        { name: "Hotel Paradise", price: "$120", image: "hotel1.jpg" },
-        { name: "Cozy Stay", price: "$85", image: "hotel2.jpg" }
-      ];
-      accommodations.forEach(acc => {
-        const card = document.createElement("div");
-        card.className = "accommodation-card";
-        card.innerHTML = `
-          <img src="${acc.image}" alt="${acc.name}">
-          <h4>${acc.name}</h4>
-          <p>From ${acc.price}/night</p>
-        `;
-        accContainer.appendChild(card);
-      });
-    }
-
-    loadFestival();
   </script>
-</body>
 </html>
+```
