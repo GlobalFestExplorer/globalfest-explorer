@@ -73,7 +73,7 @@
       if (!festivalId) return;
 
       const { data, error } = await supabase
-        .from("events")
+        .from("festivals")
         .select("*")
         .eq("id", festivalId)
         .single();
